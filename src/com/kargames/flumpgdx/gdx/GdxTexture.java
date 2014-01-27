@@ -18,8 +18,10 @@ public class GdxTexture {
 	public GdxTexture(Texture texture, FlumpTexture ft, float scaleFactor) {
 //		region = new TextureRegionDrawable(new TextureRegion(
 //				texture, ft.rect[0], ft.rect[1], ft.rect[2], ft.rect[3]));
-		region = new SpriteDrawable(new Sprite(new TextureRegion(
-				texture, ft.rect[0], ft.rect[1], ft.rect[2], ft.rect[3])));
+		Sprite s = new Sprite(new TextureRegion(
+				texture, ft.rect[0], ft.rect[1], ft.rect[2], ft.rect[3]));
+		s.flip(false,true);
+		region = new SpriteDrawable(s);
 		name = ft.symbol;
 		origin = new Vector2(ft.origin[0], ft.origin[1]);
 		this.scaleFactor = scaleFactor;

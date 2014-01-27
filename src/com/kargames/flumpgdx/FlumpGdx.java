@@ -6,12 +6,9 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.graphics.GL10;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.Json;
 import com.kargames.flumpgdx.flump.FlumpLibrary;
-import com.kargames.flumpgdx.flump.FlumpKeyframe;
-import com.kargames.flumpgdx.flump.FlumpLayer;
 import com.kargames.flumpgdx.flump.Movie;
 import com.kargames.flumpgdx.gdx.GdxLibrary;
 
@@ -73,3 +70,4 @@ public class FlumpGdx extends ApplicationAdapter {
 		gui.setViewport(width, height, true);
 	}
 }
+

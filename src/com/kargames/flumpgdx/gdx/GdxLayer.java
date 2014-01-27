@@ -73,32 +73,10 @@ public class GdxLayer extends Image {
 
 	@Override
 	public void draw(SpriteBatch batch, float parentAlpha) {
-//		Matrix4 proj = batch.getProjectionMatrix().cpy();
-//		Matrix4 tran = batch.getTransformMatrix().cpy();
+		batch.setTransformMatrix(tranMatrix);
 		
-//		projMatrix.mul(proj);
-//		proj.mul(temp);
-//		tranMatrix.mul(tran);
-		this.translate(-getOriginX()/2, -getOriginY()/2);
 		
-//		batch.setProjectionMatrix(projMatrix);
-//		batch.setTransformMatrix(tranMatrix);
-		
-		float[] verts = trd.getSprite().getVertices();
-//		verts[SpriteBatch.X1] = 10f;
-		verts[SpriteBatch.X2] *= 1.001f;
-		verts[SpriteBatch.X3] *= 1.001f;
-//		verts[SpriteBatch.X4] = 4f;
-		
-//		float y = verts[SpriteBatch.X3] *= 2;
-//		((SpriteDrawable)this.getDrawable()).getSprite().setX(x);
-		trd.getSprite().draw(batch, (selected == this) ? 1 : 0.6f);
-//		super.draw(batch, (selected == this) ? 1 : 0.6f);
-		
-//		batch.setProjectionMatrix(proj);
-//		batch.setTransformMatrix(tran);
-		
-		this.translate(getOriginX()/2, getOriginY()/2);
+		super.draw(batch, (selected == this) ? 1 : 1f);
 		
 		batch.end();
 		sr.setProjectionMatrix(batch.getProjectionMatrix());
@@ -106,12 +84,9 @@ public class GdxLayer extends Image {
 		
 		sr.setColor(Color.RED);
 		sr.begin(ShapeType.Line);
-		sr.rect(-getWidth()/2, -getHeight()/2, getWidth(), getHeight());
+		sr.rect(0,0, getWidth(), getHeight());
 		sr.end();
 		
-		sr.begin(ShapeType.Filled);
-		sr.circle(0, 0, 10);
-		sr.end();
 		
 		batch.begin();
 		label.draw(batch, parentAlpha);
@@ -142,6 +117,7 @@ public class GdxLayer extends Image {
 
 		if (cf.texture != null) {
 			trd = cf.texture.region;
+			
 			baseVerts = trd.getSprite().getVertices();
 			setDrawable(trd);
 //			setSize(trd.getRegion().getRegionWidth(), trd.getRegion()
@@ -171,99 +147,32 @@ public class GdxLayer extends Image {
                 alpha += (nf.alpha-alpha) * percent;
             }
         }
-
-//        float sinX = MathUtils.sin(skewX), cosX = MathUtils.cos(skewX);
-//        float sinY = MathUtils.sin(skewY), cosY = MathUtils.cos(skewY);
-//
-//        float m00 = cosY * scaleX;
-//        float m01 = sinY * scaleX;
-//        float m10 = -sinX * scaleY;
-//        float m11 = cosX * scaleY;
-//        
-//        float[] values = {m00, m01, 0, 0,
-//			   	  m10, m11, 0, 0,
-//				  0, 0, 1, 0,
-//				  locX, locY, 0, 1};
         
-//        float[] values = {m00, m01, 0, 0,
-//			   	  m10, m11, 0, 0,
-//				  0, 0, 1, 0,
-//				  0, 0, 0, 1};
-//        projMatrix.set(values);
-//
-//		float[] tranValues = {1, 0, 0, 0,
-//			   	  0, 1, 0, 0,
-//				  0, 0, 1, 0,
-//				  locX, locY, 0, 1};
-//		tranMatrix.set(tranValues);
-		
-		
-
-//		float[] skewValues = {1, (float)Math.tan(skewX), 0, 0,
-//				 (float)Math.tan(skewY), 1, 0, 0,
-//				  0, 0, 1, 0,
-//				  0, 0, 0, 1};
-//		
-//		projMatrix.set(skewValues);
+        locY *= -1;
+        scaleY *= -1;
         
-//		verts[SpriteBatch.X1] = 10f;
-//		verts[SpriteBatch.X2] *= 10f;
+        
+        float sinX = MathUtils.sin(-skewX);
+        float cosX = MathUtils.cos(-skewX);
+        float sinY = MathUtils.sin(-skewY);
+		float cosY = MathUtils.cos(-skewY);
 
-		
-//		System.out.println("gdxlayer 215: sinx = " + sinx + ", siny = " + siny);
-		
-		
-		trd.getSprite().setPosition(locX, locY);
-		trd.getSprite().setScale(scaleX, scaleY);
-		trd.getSprite().setOrigin(cf.pivot.x, cf.pivot.y);
-		float[] verts = trd.getSprite().getVertices();
+        float m00 = cosY * scaleX;
+        float m01 = sinY * scaleX;
+        float m10 = -sinX * scaleY;
+        float m11 = cosX * scaleY;
+        
+        float[] offsetValues = {1, 0, 0, 0,     0, 1, 0, 0,
+				  				0, 0, 1, 0,    -cf.pivot.x, -cf.pivot.y, 0, 1};
 
-		float sinx = skewX;
-		float siny = skewY;
-		
-		float x = cf.pivot.x;
-		float y = cf.pivot.y;
-		verts[SpriteBatch.X1] = (baseVerts[SpriteBatch.X1]-x) * sinx + x;
-		verts[SpriteBatch.X2] = (baseVerts[SpriteBatch.X2]-x) * sinx + x;
-		verts[SpriteBatch.X3] = (baseVerts[SpriteBatch.X3]-x) * sinx + x;
-		verts[SpriteBatch.X4] = (baseVerts[SpriteBatch.X4]-x) * sinx + x;
-		
-		verts[SpriteBatch.Y1] = (baseVerts[SpriteBatch.Y1]-y) * siny + y;
-		verts[SpriteBatch.Y2] = (baseVerts[SpriteBatch.Y2]-y) * siny + y;
-		verts[SpriteBatch.Y3] = (baseVerts[SpriteBatch.Y3]-y) * siny + y;
-		verts[SpriteBatch.Y4] = (baseVerts[SpriteBatch.Y4]-y) * siny + y;
-		
-		
-		
-		/*
-		 
-		 2					3
-		   \
-		     \
-		 	   o
-		 
-		 
-		 
-		 1					4
-		 
-		 
-		 */
-		
-		
-		
-		
-//		if (this.name.equalsIgnoreCase("body")) {
-//			System.out.println(verts[SpriteBatch.X3]);
-//		}
-		
-		
-//		verts[SpriteBatch.X2] *= 10f;
-		
-//		setPosition(locX, locY);
-//		setScale(scaleX, scaleY);
-//		setRotation(0);
-//		setOrigin(cf.pivot.x, cf.pivot.y);
-		
+        Matrix4 temp = new Matrix4();
+        temp.set(offsetValues);
+        
+		float[] tranValues = {m00, m01, 0, 0, 	m10, m11, 0, 0,
+				  			  0, 0, 1, 0, 		locX, locY, 0, 1};
+		tranMatrix.set(tranValues);
+		tranMatrix.mul(temp);
+
 		label.setText(name + ":" + cf.ref);
 	}
 	
@@ -277,7 +186,7 @@ public class GdxLayer extends Image {
 	
 	public void select() {
 		selected = this;
-		toFront();
+//		toFront();
 	}
 	
 	public String toString() {

@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.kargames.flumpgdx.gdx.GdxLayer;
 import com.kargames.flumpgdx.gdx.GdxMovie;
 
 public class PanStage extends Stage{
